@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    padding:30px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* Products */
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.product{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.product-img{
+    height:180px;
+    background:#dbeafe;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:60px;
+}
+
+.product-info{
+    padding:20px;
+}
+
+.price{
+    color:#2563eb;
+    font-size:22px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+/* Cart */
+.cart{
+    margin-top:40px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.total{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.remove-btn{
+    background:red;
+    width:auto;
+    padding:5px 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Shopping Cart Demo</h1>
+
+    <!-- Products -->
+    <div class="products">
+
+        <div class="product">
+            <div class="product-img">📱</div>
+            <div class="product-info">
+                <h3>Smartphone</h3>
+                <div class="price">$500</div>
+                <button onclick="addToCart('Smartphone',500)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="product">
+            <div class="product-img">💻</div>
+            <div class="product-info">
+                <h3>Laptop</h3>
+                <div class="price">$1200</div>
+                <button onclick="addToCart('Laptop',1200)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <div class="product">
+            <div class="product-img">⌚</div>
+            <div class="product-info">
+                <h3>Smart Watch</h3>
+                <div class="price">$250</div>
+                <button onclick="addToCart('Smart Watch',250)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cart -->
+    <div class="cart">
+        <h2>🛒 Shopping Cart</h2>
+
+        <div id="cartItems"></div>
+
+        <div class="total">
+            Total: $<span id="total">0</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+let cart = [];
+let total = 0;
+
+function addToCart(name, price){
+
+    cart.push({name, price});
+    total += price;
+
+    renderCart();
+}
+
+function removeItem(index){
+
+    total -= cart[index].price;
+    cart.splice(index,1);
+
+    renderCart();
+}
+
+function renderCart(){
+
+    let cartItems = document.getElementById("cartItems");
+
+    cartItems.innerHTML = "";
+
+    cart.forEach((item,index)=>{
+
+        cartItems.innerHTML += `
+            <div class="cart-item">
+                <span>${item.name} - $${item.price}</span>
+                <button class="remove-btn"
+                onclick="removeItem(${index})">
+                Remove
+                </button>
+            </div>
+        `;
+    });
+
+    document.getElementById("total").innerText = total;
+}
+
+</script>
+
+</body>
+</html>
